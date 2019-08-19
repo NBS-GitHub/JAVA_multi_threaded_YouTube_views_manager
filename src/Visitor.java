@@ -10,7 +10,7 @@ public class Visitor extends Thread {
    private int IpC;
    private int IpD;
    private Random random = new Random();
-
+   
    public Visitor(Movie movie) {
       this.movie = movie;
       this.title = movie.getTitle();
