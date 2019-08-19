@@ -1,10 +1,13 @@
-public class Movie {
+import java.util.Random;
+
+public class Movie implements Runnable {
 
    private String title;
    private int views = 0;
    private int likes = 0;
    private int dislikes = 0;
    private int duration;
+   Random random = new Random();
 
    Object lock1 = new Object();
    Object lock2 = new Object();
@@ -14,6 +17,23 @@ public class Movie {
       this.title = title;
       this.duration = duration;
    }
+
+   public void run() {
+      releaseMovie();
+   }
+
+   public void releaseMovie() {
+      while(true) {
+         try {
+            Thread.sleep(random.nextInt(1000));
+            Visitor visitor = new Visitor(this);
+            visitor.start();
+         } catch (InterruptedException e) {
+            e.printStackTrace();
+         }
+      }
+   }
+
 
    public synchronized void incrementViewsCount() {
       synchronized (lock1) {
@@ -40,10 +60,6 @@ public class Movie {
 
    public int getDuration() {
       return duration;
-   }
-
-   public int getLikes() {
-      return likes;
    }
 
    @Override
